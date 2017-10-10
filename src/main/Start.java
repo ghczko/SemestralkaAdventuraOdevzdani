@@ -28,5 +28,8 @@ public class Start
         TextoveRozhrani ui = new TextoveRozhrani(hra);
         ui.hraj();
         System.out.println("Ahoj svete");
+
+        System.out.println("no nazdar");
+    
     }
 }
