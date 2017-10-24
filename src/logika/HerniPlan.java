@@ -31,11 +31,11 @@ public class HerniPlan {
      */
     private void zalozProstoryHry() {
         // vytvářejí se jednotlivé prostory
-        Prostor domecek = new Prostor("domeček","domeček, ve kterém bydlí Karkulka");
-        Prostor chaloupka = new Prostor("chaloupka", "chaloupka, ve které bydlí babička Karkulky");
-        Prostor jeskyne = new Prostor("jeskyně","stará plesnivá jeskyně");
-        Prostor les = new Prostor("les","les s jahodami, malinami a pramenem vody");
-        Prostor hlubokyLes = new Prostor("hluboký_les","temný les, ve kterém lze potkat vlka");
+        Prostor domecek = new Prostor("domeček","domeček, ve kterém bydlí Karkulka", 110,50);
+        Prostor chaloupka = new Prostor("chaloupka", "chaloupka, ve které bydlí babička Karkulky",20,50);
+        Prostor jeskyne = new Prostor("jeskyně","stará plesnivá jeskyně",40,78);
+        Prostor les = new Prostor("les","les s jahodami, malinami a pramenem vody",42,89);
+        Prostor hlubokyLes = new Prostor("hluboký_les","temný les, ve kterém lze potkat vlka",41, 180);
         
         // přiřazují se průchody mezi prostory (sousedící prostory)
         domecek.setVychod(les);
