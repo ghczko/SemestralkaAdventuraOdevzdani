@@ -12,8 +12,8 @@ import java.util.Map;
  *
  *  Tato třída je součástí jednoduché textové hry.
  *
- *@author     Michael Kolling, Lubos Pavlicek, Jarmila Pavlickova, Alena Buchalcevova
- *@version    z kurzu 4IT101 pro školní rok 2013/2014
+ *  @author     Michael Kolling, Lubos Pavlicek, Jarmila Pavlickova, Jan Riha
+ *  @version    ZS 2016/2017
  */
 class SeznamPrikazu {
     // mapa pro uložení přípustných příkazů
@@ -37,7 +37,6 @@ class SeznamPrikazu {
     public void vlozPrikaz(IPrikaz prikaz) {
         mapaSPrikazy.put(prikaz.getNazev(),prikaz);
     }
-    
     /**
      * Vrací odkaz na instanci třídy implementující rozhraní IPrikaz,
      * která provádí příkaz uvedený jako parametr.
@@ -72,8 +71,15 @@ class SeznamPrikazu {
      */
     public String vratNazvyPrikazu() {
         String seznam = "";
+        int pom = 0;
         for (String slovoPrikazu : mapaSPrikazy.keySet()){
+            
+            if (pom >= 5){
+            seznam += "\n";
+            pom = 0;
+            }
             seznam += slovoPrikazu + " ";
+            pom++;
         }
         return seznam;
     }

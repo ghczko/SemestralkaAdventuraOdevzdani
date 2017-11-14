@@ -1,13 +1,11 @@
 package logika;
 
 /**
- *  Třída PrikazKonec implementuje pro hru příkaz konec.
- *  Tato třída je součástí jednoduché textové hry.
+ * Třída PrikazKonec implementuje pro hru příkaz konec.
+ * Tato třída je součástí jednoduché textové hry.
  *  
- *@author     Jarmila Pavlickova
- *@version    z kurzu 4IT101 pro školní rok 2014/2015
-
- *  
+ * @author     Jarmila Pavlickova
+ * @version    ZS 2016/2017
  */
 
 class PrikazKonec implements IPrikaz {

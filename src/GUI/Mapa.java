@@ -32,7 +32,7 @@ public class Mapa extends AnchorPane implements Observer {
 
     private void init() {
 
-        ImageView obrazekImageView = new ImageView(new Image(Main.class.getResourceAsStream("/zdroje/mapa.png"), 200, 200, false, true));
+        ImageView obrazekImageView = new ImageView(new Image(Main.class.getResourceAsStream("/zdroje/mapa.png"), 600, 350, false, true));
 
         tecka = new Circle(10, Paint.valueOf("red"));
 

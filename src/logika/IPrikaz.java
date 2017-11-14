@@ -5,7 +5,7 @@ package logika;
  *  Toto rozhraní je součástí jednoduché textové hry.
  *  
  *@author     Jarmila Pavlickova
- *@version    pro školní rok 2014/2015
+ *@version    pro školní rok 2015/2016
  *  
  */
 interface IPrikaz {

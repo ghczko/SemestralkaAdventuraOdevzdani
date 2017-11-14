@@ -5,6 +5,8 @@
  */
 package main;
 
+import GUI.BatohView;
+import GUI.ExitView;
 import GUI.Mapa;
 import GUI.MenuLista;
 import javafx.application.Application;
@@ -15,16 +17,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logika.*;
 import uiText.TextoveRozhrani;
@@ -36,34 +34,41 @@ import uiText.TextoveRozhrani;
 public class Main extends Application {
 
     private TextArea centralText;
-    private IHra hra;
-
-    public void setHra(IHra hra) {
-        this.hra = hra;
+    private IHra ihra = new Hra();
+    private Hra hra;
+    
+    public void setHra(IHra ihra) {
+        this.ihra = ihra;
     }
+    
     private TextField zadejPrikazTextArea;
     
     private Mapa mapa;
     private MenuLista menuLista;
-    
+    private BatohView batohView;
+    private ExitView exitView;
     private Stage stage;
     
     @Override
     public void start(Stage primaryStage) {
         this.setStage(primaryStage);
+       
         
-        hra = new Hra();
-        
-        mapa = new Mapa(hra);
-        menuLista = new MenuLista(hra, this);
         
         BorderPane borderPane = new BorderPane();
+        BorderPane bocniLista = new BorderPane();
+        
+        batohView = new BatohView(ihra);
+        exitView = new ExitView(ihra);
+        mapa = new Mapa(ihra);
+        menuLista = new MenuLista(ihra, this);
         
         // Text s prubehem hry
         centralText = new TextArea();
-        centralText.setText(hra.vratUvitani());
+        centralText.setText(ihra.vratUvitani());
         centralText.setEditable(false);
         borderPane.setCenter(centralText);
+        borderPane.setBackground(Background.EMPTY);
         
         //label s textem zadej prikaz
         Label zadejPrikazLabel = new Label("Zadej prikaz: ");
@@ -77,16 +82,16 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
 
                 String vstupniPrikaz = zadejPrikazTextArea.getText();
-                String odpovedHry = hra.zpracujPrikaz(vstupniPrikaz);
+                String odpovedHry = ihra.zpracujPrikaz(vstupniPrikaz);
                 
                 centralText.appendText("\n" + vstupniPrikaz + "\n");
                 centralText.appendText("\n" + odpovedHry + "\n");
                 
                 zadejPrikazTextArea.setText("");
                 
-                if (hra.konecHry()) {
+                if (ihra.konecHry()) {
                     zadejPrikazTextArea.setEditable(false);
-                    centralText.appendText(hra.vratEpilog());
+                    centralText.appendText(ihra.vratEpilog());
                 }
             }
         });
@@ -94,13 +99,21 @@ public class Main extends Application {
         //dolni lista s elementy
         FlowPane dolniLista = new FlowPane();
         dolniLista.setAlignment(Pos.CENTER);
+        dolniLista.setBackground(Background.EMPTY);
         dolniLista.getChildren().addAll(zadejPrikazLabel,zadejPrikazTextArea);
         
+        bocniLista.setLeft(batohView);
+        bocniLista.setRight(exitView);
+        
+        
+        
         borderPane.setLeft(mapa);
+        borderPane.setRight(bocniLista);
         borderPane.setBottom(dolniLista);
         borderPane.setTop(menuLista);
         
-        Scene scene = new Scene(borderPane, 750, 450);
+        
+        Scene scene = new Scene(borderPane, 2000, 1000, Color.DARKGREY);
         primaryStage.setTitle("Adventura");
 
         primaryStage.setScene(scene);
@@ -115,6 +128,10 @@ public class Main extends Application {
     public Mapa getMapa() {
         return mapa;
     }
+     public IHra getHra() {
+        return hra;
+    }
+
     
     /**
      * @param args the command line arguments

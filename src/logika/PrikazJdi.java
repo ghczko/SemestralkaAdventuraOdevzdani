@@ -1,23 +1,29 @@
 package logika;
 
 /**
- *  Třída PrikazJdi implementuje pro hru příkaz jdi.
- *  Tato třída je součástí jednoduché textové hry.
+ * Třída PrikazJdi implementuje pro hru příkaz jdi.
+ * Tato třída je součástí jednoduché textové hry.
  *  
- *@author     Jarmila Pavlickova, Luboš Pavlíček, Alena Buchalcevova
- *@version    z kurzu 4IT101 pro školní rok 2014/2015
+ * @author     Jarmila Pavlickova, Luboš Pavlíček, Jan Riha
+ * @version    ZS 2016/2017
  */
 class PrikazJdi implements IPrikaz {
     private static final String NAZEV = "jdi";
     private HerniPlan plan;
-    
+    private Batoh batoh;
+    private Hra hra;
+
     /**
-    *  Konstruktor třídy
-    *  
-    *  @param plan herní plán, ve kterém se bude ve hře "chodit" 
-    */    
-    public PrikazJdi(HerniPlan plan) {
+     *  Konstruktor třídy
+     *  
+     *  @param plan herní plán, ve kterém se bude ve hře "chodit" 
+     *  @param batoh je batoh, ve kterem budou ulozeny veci 
+     *  @param hra je hra, kterou hrajeme a pouzijeme ji na zmenu konce hry
+     */    
+    public PrikazJdi(HerniPlan plan, Batoh batoh, Hra hra) {
         this.plan = plan;
+        this.batoh = batoh;
+        this.hra = hra;
     }
 
     /**
@@ -37,19 +43,50 @@ class PrikazJdi implements IPrikaz {
         }
 
         String smer = parametry[0];
-
+        int benzin = batoh.getBenzin();
         // zkoušíme přejít do sousedního prostoru
         Prostor sousedniProstor = plan.getAktualniProstor().vratSousedniProstor(smer);
-
+        boolean pruchod = plan.getAktualniProstor().getPruchod();
+        boolean nepruchod = !pruchod; // takto to řeším, abych se zbavil problémů PWD
         if (sousedniProstor == null) {
             return "Tam se odsud jít nedá!";
         }
-        else {
+
+        if (smer.equals("hranice") && !batoh.obsahujeVec("brambory")){
+            return "Takhle se přes hranice nedostaneš... vrat se pro kamufláž(brambory)\n";
+        }
+        if(smer.equals("USA")){
+            sousedniProstor.setPruchod(getRandomBoolean());
+            if (!sousedniProstor.getPruchod())
+            {
+                hra.setKonecHry(true);
+                return "\nJelikož tě chytli američtí celníci, tak jsi zatčen \n a hra skončila";
+            }
+        }
+
+        if(benzin > 0 && pruchod)
+        {
             plan.setAktualniProstor(sousedniProstor);
+            benzin = benzin -1;
+            batoh.setBenzin(benzin);
             return sousedniProstor.dlouhyPopis();
         }
+        else if(benzin < 0){
+                return "nemáš dost benzinu\n";
+            }
+            else if (nepruchod){
+                return "Někdo ti brání v cestě.\n";
+            }
+            else{
+                return "nemůžeš dál\n";
+                }
     }
-    
+
+    public static boolean getRandomBoolean() {
+        return Math.random() < 0.70;
+        //cim vyšší číslo tím větší pravděpodobnost průchodu
+    }
+
     /**
      *  Metoda vrací název příkazu (slovo které používá hráč pro jeho vyvolání)
      *  

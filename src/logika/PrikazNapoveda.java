@@ -4,24 +4,21 @@ package logika;
  *  Třída PrikazNapoveda implementuje pro hru příkaz napoveda.
  *  Tato třída je součástí jednoduché textové hry.
  *  
- *@author     Jarmila Pavlickova, Luboš Pavlíček
- *@version    z kurzu 4IT101 pro školní rok 2014/2015
-
- *  
+ * @author     Jarmila Pavlickova, Luboš Pavlíček, Jan Riha
+ * @version    ZS 2016/2017
  */
 class PrikazNapoveda implements IPrikaz {
     
     private static final String NAZEV = "napoveda";
     private SeznamPrikazu platnePrikazy;
     
-    
-     /**
-    *  Konstruktor třídy
-    *  
-    *  @param platnePrikazy seznam příkazů,
-    *                       které je možné ve hře použít,
-    *                       aby je nápověda mohla zobrazit uživateli. 
-    */    
+    /**
+     *  Konstruktor třídy
+     *  
+     *  @param platnePrikazy seznam příkazů,
+     *                       které je možné ve hře použít,
+     *                       aby je nápověda mohla zobrazit uživateli. 
+     */    
     public PrikazNapoveda(SeznamPrikazu platnePrikazy) {
         this.platnePrikazy = platnePrikazy;
     }
@@ -34,8 +31,8 @@ class PrikazNapoveda implements IPrikaz {
      */
     @Override
     public String proved(String... parametry) {
-        return "Tvým úkolem je dovést Červenou Karkulku z domečku\n"
-        + "až k babičce, která bydlí v chaloupce za lesem.\n"
+        return "Tvým úkolem je dojet z kolumbie do USA.\n"
+        + "Cestou musíš projít přes celníky\n"
         + "\n"
         + "Můžeš zadat tyto příkazy:\n"
         + platnePrikazy.vratNazvyPrikazu();

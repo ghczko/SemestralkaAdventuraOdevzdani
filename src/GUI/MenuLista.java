@@ -25,11 +25,12 @@ import main.Main;
  */
 public class MenuLista extends MenuBar{
     
-    private IHra hra;
+    private IHra ihra;
+    private Hra hra;
     private Main main;
     
-    public MenuLista(IHra hra, Main main){
-        this.hra = hra;
+    public MenuLista(IHra ihra, Main main){
+        this.ihra = ihra;
         this.main = main;
         init();
     }
@@ -66,10 +67,10 @@ public class MenuLista extends MenuBar{
 
             @Override
             public void handle(ActionEvent event) {
-                hra = new Hra();
-                main.getMapa().newGame(hra);
-                main.setHra(hra);
-                main.getCentralText().setText(hra.vratUvitani());
+                ihra = new Hra();
+                main.getMapa().newGame(ihra);
+                main.setHra(ihra);
+                main.getCentralText().setText(ihra.vratUvitani());
             }
         });
         
