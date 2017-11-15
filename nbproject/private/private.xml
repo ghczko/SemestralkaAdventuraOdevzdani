@@ -4,12 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/GUI/ExitView.java</file>
-            <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/utils/Observer.java</file>
             <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/GUI/BatohView.java</file>
-            <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/logika/HerniPlan.java</file>
             <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/logika/PrikazVezmi.java</file>
+            <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/main/Main.java</file>
+            <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/logika/PrikazProzkoumej.java</file>
             <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/logika/Hra.java</file>
+            <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/GUI/VeciView.java</file>
             <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/logika/Batoh.java</file>
+            <file>file:/Users/tomasbalogh/OneDrive/VŠE/softwarko/mojeSemestralka/mojeAdventura/src/logika/Prostor.java</file>
         </group>
     </open-files>
 </project-private>

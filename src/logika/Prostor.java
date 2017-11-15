@@ -285,7 +285,7 @@ public class Prostor {
     public Vec odeberVec(String nazev) {
         return veci.remove(nazev);
     }
-    public Collection<Vec> getVeci() {
-        return setVeci;
+    public Map<String, Vec> getVeci() {
+        return veci;
     }
 }

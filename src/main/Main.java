@@ -9,9 +9,11 @@ import GUI.BatohView;
 import GUI.ExitView;
 import GUI.Mapa;
 import GUI.MenuLista;
+import GUI.VeciView;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -48,6 +50,7 @@ public class Main extends Application {
     private BatohView batohView;
     private ExitView exitView;
     private Stage stage;
+    private VeciView veciView;
     
     @Override
     public void start(Stage primaryStage) {
@@ -56,10 +59,12 @@ public class Main extends Application {
         
         
         BorderPane borderPane = new BorderPane();
-        BorderPane bocniLista = new BorderPane();
+        BorderPane pravaLista = new BorderPane();
+        BorderPane levaLista = new BorderPane();
         
         batohView = new BatohView(ihra);
         exitView = new ExitView(ihra);
+        veciView = new VeciView(ihra);
         mapa = new Mapa(ihra);
         menuLista = new MenuLista(ihra, this);
         
@@ -101,19 +106,22 @@ public class Main extends Application {
         dolniLista.setAlignment(Pos.CENTER);
         dolniLista.setBackground(Background.EMPTY);
         dolniLista.getChildren().addAll(zadejPrikazLabel,zadejPrikazTextArea);
+        veciView.setOrientation(Orientation.HORIZONTAL);
+        pravaLista.setLeft(batohView);
+        pravaLista.setRight(exitView);
         
-        bocniLista.setLeft(batohView);
-        bocniLista.setRight(exitView);
+        levaLista.setCenter(mapa);
+        levaLista.setBottom(veciView);
         
         
         
-        borderPane.setLeft(mapa);
-        borderPane.setRight(bocniLista);
+        borderPane.setLeft(levaLista);
+        borderPane.setRight(pravaLista);
         borderPane.setBottom(dolniLista);
         borderPane.setTop(menuLista);
         
         
-        Scene scene = new Scene(borderPane, 2000, 1000, Color.DARKGREY);
+        Scene scene = new Scene(borderPane, 2000, 1000, Color.WHITE);
         primaryStage.setTitle("Adventura");
 
         primaryStage.setScene(scene);
