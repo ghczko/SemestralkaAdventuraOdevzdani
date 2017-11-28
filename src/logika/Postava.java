@@ -23,6 +23,20 @@ public class Postava
     private boolean uplaceno;
     private boolean zije;
     /***************************************************************************
+     * @param jmeno
+     * jmeno postavy
+     * @param veta
+     * veta postavy
+     * @param uplatit
+     * muze uplatit?
+     * @param umrit
+     * muze umrit?
+     * @param uplaceno
+     * byl uplacen?
+     * @param zije
+     * zije/nezije
+     * @param projit
+     * muzu přes nej projit
      * Konstruktor nastaví jméno a proslov postav
      */
     public Postava(String jmeno, String veta, boolean uplatit, boolean umrit, boolean uplaceno, boolean zije, boolean projit)

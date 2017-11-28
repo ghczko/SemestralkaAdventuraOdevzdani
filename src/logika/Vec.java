@@ -2,6 +2,9 @@
  * Kontrola kódování: Příliš žluťoučký kůň úpěl ďábelské ódy. */
 package logika;
 
+import javafx.scene.image.Image;
+import main.Main;
+
 
 
 /*******************************************************************************
@@ -17,6 +20,7 @@ public class Vec
     private String popis;
     private boolean prenositelna;
     private String obrazek;
+    private Image obrazekFile;
     
     //== Konstruktory a tovární metody =============================================
 
@@ -29,6 +33,7 @@ public class Vec
         this.popis = popis;
         this.prenositelna = prenositelna;
         this.obrazek = obrazek;
+        this.obrazekFile = new Image(Main.class.getResource("/zdroje/" + obrazek).toString(), 100, 100, false, false);
     }
 
     //== Nesoukromé metody (instancí i třídy) ======================================
@@ -46,6 +51,9 @@ public class Vec
     
     public String getObrazek() {
         return obrazek;
+    }
+    public Image getObrazekFile(){
+    return obrazekFile;
     }
 
     // Možná bude potřeba přidat settery pro atributy 'popis' a 'prenositelna'.

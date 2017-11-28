@@ -5,69 +5,92 @@
  */
 package GUI;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import logika.IHra;
 import logika.Prostor;
+import main.Main;
 import utils.Observer;
 
 /**
  *
  * @author tomasbalogh
  */
-public class ExitView extends ListView implements Observer  {
+public class ExitView extends AnchorPane implements Observer  {
     
- private IHra hra;
-    private final ObservableList<String> options = FXCollections.observableArrayList();
-    String value = " ";
+    private IHra hra;
+    private ObservableList<Prostor> exits;
+    private Main main;
 
     /**
-     * Konstruktor, který zavoláním metody init, zaregistruje pozorovatele a
-     * nadefinuje podobu ComboBoxu.
+     * konstuktor k nadefinov8n9 exitview
      *
-     * @param hra
+     * @param hra konstuktor k nadefinov8n9 exitview
+     * @param main konstuktor k nadefinov8n9 exitview
      */
-    public ExitView(IHra hra) {
+    public ExitView(IHra hra, Main main) {
         this.hra = hra;
+        this.main = main;
         init();
     }
-
     /**
-     * Metoda vrací ComboBox a je použita ve třídě Main k zpřístupnění
-     * ComboBoxu.
+     * Metoda zaregistruje pozorovatele k hernímu plánu při spuštění nové hry.
      *
-     * @return Vrací Combobox.
+     * @param hra Metoda zaregistruje pozorovatele k hernímu plánu při spuštění nové hry.
      */
-//    public ComboBox getComboBox() {
-//        return this;
-//    }
-
+  public void novaHra(IHra hra) {
+        this.hra.getHerniPlan().removeObserver(this);
+        this.hra = hra;
+        this.hra.getHerniPlan().registerObserver(this);
+        update();
+    }
+  
+/*
+  * vytvoreni listview a nstaveni click to action..
+  */
     public void init() {
-        this.setItems(options);  
-        this.setEditable(true);
-        this.setPrefWidth(150);
-        hra.getHerniPlan().registerObserver(this);
+       
+        exits = FXCollections.observableArrayList();
+        ListView<Prostor> listExits = new ListView<>(exits);
+        listExits.setPrefHeight(630);
+        listExits.setStyle("-fx-background-insets: 0 ; -fx-background-color: transparent;");
+        listExits.setCellFactory(param -> new ListCell<Prostor>() {
+            @Override
+            protected void updateItem(Prostor item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getNazev() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getNazev());
+                    setFont(Font.font(20));
+                                     
+                }
+                this.setOnMousePressed(event -> {
+                    main.zpracujPrikazMain("jdi "+item.getNazev());
+                    update();
+                });
+            }
+
+        });
+        VBox ExitLayout = new VBox();
+        Label labelExit = new Label("Východy:");
+        ExitLayout.getChildren().addAll(labelExit, listExits);
+        this.getChildren().addAll(ExitLayout);
         update();
     }
 
-    /**
-     * Metoda aktualizuje seznam při přechodu z místnosti do místnosti.
-     */
+    
+    
     @Override
     public void update() {
-        options.clear();
-        for (Prostor prostor : hra.getHerniPlan().getAktualniProstor().getVychody()) {
-            options.add(prostor.getNazev());
-        }
+        exits.setAll();
+        exits.addAll(hra.getHerniPlan().getAktualniProstor().getVychody());
     }
 
     /**
@@ -75,11 +98,6 @@ public class ExitView extends ListView implements Observer  {
      *
      * @param hra
      */
-    public void novaHra(IHra hra) {
-        this.hra.getHerniPlan().removeObserver(this);
-        this.hra = hra;
-        this.hra.getHerniPlan().registerObserver(this);
-        update();
-    }
+  
     
 }

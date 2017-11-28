@@ -2,6 +2,11 @@
  * Kontrola kódování: Příliš žluťoučký kůň úpěl ďábelské ódy. */
 package logika;
 
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.media.AudioClip;
+
 
 
 /*******************************************************************************
@@ -27,6 +32,7 @@ public class PrikazProdej implements IPrikaz
     private Batoh batoh;
     private Hra hra;
     private Vec zbozi;
+    private AudioClip winNoise;
     /***************************************************************************
      *konstruktor
      */
@@ -39,28 +45,56 @@ public class PrikazProdej implements IPrikaz
     /**
      * vezme věc (parametr) z batohu a přepíše hodnotu v proměné peněženky. 
      * 
-     * @return text o provedení prodeje
+     * 
      */
+    
+    public void init(String hlaska){
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Konec hry");
+                        alert.setHeaderText(hlaska);
+                        winNoise = new AudioClip(this.getClass().getResource("/zdroje/win.mp3").toString());
+                        winNoise.play();
+                        ButtonType buttonTypeOne = new ButtonType("KONEC");
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == buttonTypeOne){
+                        System.exit(0);
+                        }
+    }
     public String proved(String... parametry){
-        String jmeno = parametry[0];
-        if (parametry.length == 0) {
+        if (parametry.length < 1) {
+            return "nevím, co mám prodat";
+        }
+        String nazevVeci = parametry[0];
+        
+        if (parametry.length < 1) {
             // pokud chybí druhé slovo (prodejni vec), tak ....
             return "Nevím, co chceš prodat!";
         }
-        if (!jmeno.equals("kokain") || !jmeno.equals("brambory")){
-        return "To, co jsi vybral, tak nelze prodat.\n";
-        }
-        if(herniPlan.getAktualniProstor().getNazev().equals("sklad"))
+        System.out.println(nazevVeci);
+        
+        if(herniPlan.getAktualniProstor().getNazev().equals("Sklad"))
         {   
-            zbozi = batoh.odeberVec(jmeno);
+            zbozi = batoh.odeberVec(nazevVeci);
             if (zbozi.getNazev().equals("kokain"))
-            {batoh.setPenezenka(1000000);}
+            {batoh.setPenezenka(1000000);
+            hra.setKonecHry(true);
+            String konec = "Gratuluji Paplo! Prodal jsi " + zbozi.getNazev() + " za cenu " + batoh.getPenezenka() +
+            " pesos.";
+            init(konec);
+            return konec;
+            }
             else if(zbozi.getNazev().equals("brambory")){
             batoh.setPenezenka(5000);
-            }
             hra.setKonecHry(true);
-            return "Gratuluji Paplo! Prodal jsi " + zbozi.getNazev() + " za cenu " + batoh.getPenezenka() +
+            String konec = "Gratuluji Paplo! Prodal jsi " + zbozi.getNazev() + " za cenu " + batoh.getPenezenka() +
             " pesos.";
+            init(konec);
+            return konec;
+            
+            }else{
+            return "To, co jsi vybral, tak nelze prodat.\n";
+            }
+            
         }
         else{
             return "můžeš prodávat jen v USA ve skladu.\n";

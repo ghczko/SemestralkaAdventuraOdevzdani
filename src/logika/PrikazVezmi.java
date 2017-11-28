@@ -17,6 +17,7 @@ public class PrikazVezmi implements IPrikaz
     
     private Batoh batoh;
     private HerniPlan herniPlan;
+    
 
     //== Konstruktory a tovární metody =============================================
 
@@ -41,6 +42,7 @@ public class PrikazVezmi implements IPrikaz
         
         String nazevVeci = parametry[0];
         Vec vec = herniPlan.getAktualniProstor().odeberVec(nazevVeci);
+
         if (vec == null) {
             return "věc '" + nazevVeci + "' tu není";
         }
@@ -66,6 +68,8 @@ public class PrikazVezmi implements IPrikaz
             }
            batoh.vlozVec(vec);
            batoh.notifyObservers();
+           herniPlan.getAktualniProstor().notifyObservers();
+           
            return "věc " + nazevVeci + " jsi uložil do kamionu";
           
         

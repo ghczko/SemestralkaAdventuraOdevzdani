@@ -48,6 +48,9 @@ public class PrikazUplatit implements IPrikaz
         if (postava == null) {
             return "Ten tu není!";
         }
+        else if(batoh.getPenezenka()<=0){
+        return jmeno +" nemůžeš uplatit, nemáš peníze"; 
+        }
         else{
             int konto;
             konto = batoh.getPenezenka();

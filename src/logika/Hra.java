@@ -77,6 +77,7 @@ public class Hra implements IHra {
      *@param  radek  text, který zadal uživatel jako příkaz do hry.
      *@return          vrací se řetězec, který se má vypsat na obrazovku
      */
+  
      public String zpracujPrikaz(String radek) {
         String [] slova = radek.split("[ \t]+");
         String slovoPrikazu = slova[0];
@@ -88,8 +89,7 @@ public class Hra implements IHra {
         if (platnePrikazy.jePlatnyPrikaz(slovoPrikazu)) {
             IPrikaz prikaz = platnePrikazy.vratPrikaz(slovoPrikazu);
             textKVypsani = prikaz.proved(parametry);
-
-            
+    
         }
         else {
             textKVypsani="Nevím co tím myslíš? Tento příkaz neznám. ";

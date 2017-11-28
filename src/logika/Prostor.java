@@ -1,5 +1,6 @@
 package logika;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
+import utils.Observer;
+import utils.Subject;
 
 /**
  * Trida Prostor - popisuje jednotlivé prostory (místnosti) hry
@@ -21,7 +24,8 @@ import java.util.stream.Collectors;
  * @author Michael Kolling, Lubos Pavlicek, Jarmila Pavlickova, Jan Riha, Tomáš Balogh
  * @version ZS 2016/2017
  */
-public class Prostor {
+public class Prostor implements Subject
+{
 
     private String nazev;
     private String popis;
@@ -32,6 +36,7 @@ public class Prostor {
     private Set<Vec> setVeci;
     private double posLeft;
     private double posTop;
+     private final List<Observer> listObserveru = new ArrayList<>();
     //seznam postav v prostoru
     /**
      * Vytvoření prostoru se zadaným popisem, např. "kuchyň", "hala", "trávník
@@ -277,6 +282,14 @@ public class Prostor {
     public void vlozVec(Vec vec) {
         veci.put(vec.getNazev(), vec);
     }
+    
+     public Postava getPostava(String jmeno){
+        return seznamPostav.get(jmeno);
+    } 
+    public Map<String, Postava> getPostavy() {
+        return seznamPostav;
+    }
+    
     /**
      * Vrací, co se odstranilo z prostoru
      *
@@ -285,7 +298,26 @@ public class Prostor {
     public Vec odeberVec(String nazev) {
         return veci.remove(nazev);
     }
+    public Postava odeberPostavu(String jmeno){
+        return seznamPostav.remove(jmeno);
+    }
     public Map<String, Vec> getVeci() {
         return veci;
+    }
+     @Override
+    public void registerObserver(Observer observer) {
+        listObserveru.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        listObserveru.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : listObserveru) {
+            observer.update();
+        }
     }
 }

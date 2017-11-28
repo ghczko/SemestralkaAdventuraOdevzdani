@@ -7,13 +7,15 @@ package main;
 
 import GUI.BatohView;
 import GUI.ExitView;
+
 import GUI.Mapa;
 import GUI.MenuLista;
-import GUI.VeciView;
+import GUI.PersonView;
+
+import GUI.ItemsView;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -22,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -31,7 +34,7 @@ import uiText.TextoveRozhrani;
 
 /**
  *
- * @author xzenj02
+ * @author xzenj02, tomasbalogh
  */
 public class Main extends Application {
 
@@ -48,10 +51,17 @@ public class Main extends Application {
     private Mapa mapa;
     private MenuLista menuLista;
     private BatohView batohView;
+    private PersonView osobyView;
     private ExitView exitView;
     private Stage stage;
-    private VeciView veciView;
+    private ItemsView veciView;
+  
     
+    
+    
+     /*
+    *metoda nastavi scenu aplikace
+    */              
     @Override
     public void start(Stage primaryStage) {
         this.setStage(primaryStage);
@@ -61,19 +71,33 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
         BorderPane pravaLista = new BorderPane();
         BorderPane levaLista = new BorderPane();
+        BorderPane prikazyLista = new BorderPane();
+        BorderPane PostavaPane = new BorderPane();
+        BorderPane prostorPane = new BorderPane();
+        BorderPane borderPane2 = new BorderPane();
         
-        batohView = new BatohView(ihra);
-        exitView = new ExitView(ihra);
-        veciView = new VeciView(ihra);
+        batohView = new BatohView(ihra, this);
+        exitView = new ExitView(ihra, this);
+        veciView = new ItemsView(ihra, this);
         mapa = new Mapa(ihra);
         menuLista = new MenuLista(ihra, this);
-        
+        osobyView = new PersonView(ihra, this);
+             
+                
         // Text s prubehem hry
         centralText = new TextArea();
         centralText.setText(ihra.vratUvitani());
         centralText.setEditable(false);
-        borderPane.setCenter(centralText);
-        borderPane.setBackground(Background.EMPTY);
+        centralText.setPrefHeight(630);
+        centralText.setStyle("-fx-background-insets: 0 ;-fx-background-color: transparent;");
+        VBox centralTextLayout = new VBox();
+        Label labelCentralText = new Label("Výpis textového rozhraní");
+        
+        centralTextLayout.getChildren().addAll(labelCentralText, centralText);
+        borderPane2.setTop(centralTextLayout);
+        borderPane.setCenter(borderPane2);
+        borderPane.setStyle("-fx-background-color: white;");
+        
         
         //label s textem zadej prikaz
         Label zadejPrikazLabel = new Label("Zadej prikaz: ");
@@ -85,10 +109,8 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-
                 String vstupniPrikaz = zadejPrikazTextArea.getText();
                 String odpovedHry = ihra.zpracujPrikaz(vstupniPrikaz);
-                
                 centralText.appendText("\n" + vstupniPrikaz + "\n");
                 centralText.appendText("\n" + odpovedHry + "\n");
                 
@@ -101,17 +123,23 @@ public class Main extends Application {
             }
         });
         
-        //dolni lista s elementy
+//             nastavení scény
+        
+        
+   
         FlowPane dolniLista = new FlowPane();
         dolniLista.setAlignment(Pos.CENTER);
         dolniLista.setBackground(Background.EMPTY);
         dolniLista.getChildren().addAll(zadejPrikazLabel,zadejPrikazTextArea);
-        veciView.setOrientation(Orientation.HORIZONTAL);
-        pravaLista.setLeft(batohView);
-        pravaLista.setRight(exitView);
         
-        levaLista.setCenter(mapa);
-        levaLista.setBottom(veciView);
+        pravaLista.setLeft(getBatohView());
+        pravaLista.setRight(getExitView());
+        
+        prostorPane.setTop(getOsobyView());
+        prostorPane.setCenter(getVeciView());
+      
+        levaLista.setTop(mapa);
+        levaLista.setCenter(prostorPane);
         
         
         
@@ -121,7 +149,7 @@ public class Main extends Application {
         borderPane.setTop(menuLista);
         
         
-        Scene scene = new Scene(borderPane, 2000, 1000, Color.WHITE);
+        Scene scene = new Scene(borderPane, 2000, 750, Color.WHITE);
         primaryStage.setTitle("Adventura");
 
         primaryStage.setScene(scene);
@@ -139,8 +167,28 @@ public class Main extends Application {
      public IHra getHra() {
         return hra;
     }
-
-    
+     
+     
+ 
+ 
+    /**
+     * 
+     * @param prikaz
+     * Zpracuje String příkazu, vypíše odpověď. Pokus hra skončila, vypne aplikaci.
+     */
+    public void zpracujPrikazMain(String prikaz){
+        String odpovedHry1 = ihra.zpracujPrikaz(prikaz);
+        
+        centralText.appendText("\n" + prikaz + "\n");
+        centralText.appendText("\n" + odpovedHry1 + "\n");
+        if(ihra.konecHry()){
+            zadejPrikazTextArea.setEditable(false);
+           
+            centralText.appendText(ihra.vratEpilog());
+            System.exit(0);
+             
+        }
+    };    
     /**
      * @param args the command line arguments
      */
@@ -173,6 +221,34 @@ public class Main extends Application {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    /**
+     * @return the batohView
+     */
+    public BatohView getBatohView() {
+        return batohView;
+    }
+
+    /**
+     * @return the osobyView
+     */
+    public PersonView getOsobyView() {
+        return osobyView;
+    }
+
+    /**
+     * @return the exitView
+     */
+    public ExitView getExitView() {
+        return exitView;
+    }
+
+    /**
+     * @return the veciView
+     */
+    public ItemsView getVeciView() {
+        return veciView;
     }
 
 }

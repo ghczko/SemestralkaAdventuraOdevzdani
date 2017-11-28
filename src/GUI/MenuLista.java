@@ -21,20 +21,26 @@ import main.Main;
 
 /**
  *
- * @author xzenj02
+ * @author xzenj02, tomasbalogh
  */
 public class MenuLista extends MenuBar{
     
     private IHra ihra;
     private Hra hra;
     private Main main;
-    
+ /*
+     * @param ihra
+     * @param main
+     * nastaveni konstruktoru
+     */
     public MenuLista(IHra ihra, Main main){
         this.ihra = ihra;
         this.main = main;
         init();
     }
-    
+    /*
+    *   nadefinovani menulisty
+    */
     private void init(){
         
         Menu novySoubor = new Menu("Adventura");
@@ -54,7 +60,9 @@ public class MenuLista extends MenuBar{
         napoveda.getItems().addAll(oProgramu, napovedaItem);
         
         this.getMenus().addAll(novySoubor, napoveda);
-        
+        /*
+        *nastaveni akce po stisknuti tlacitka konechry
+        */
         konecHry.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -62,18 +70,31 @@ public class MenuLista extends MenuBar{
                 System.exit(0);
             }
         });
-        
+        /*
+        *nastaveni akce po stisknuti tlacitka novahra
+       
+        */
         novaHra.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 ihra = new Hra();
+                
                 main.getMapa().newGame(ihra);
+                System.out.print("test");
+                main.getBatohView().newGame(ihra);
+                main.getExitView().novaHra(ihra);
+                main.getOsobyView().newGame(ihra);
+                main.getVeciView().newGame(ihra);
+                
                 main.setHra(ihra);
                 main.getCentralText().setText(ihra.vratUvitani());
             }
         });
-        
+        /*
+        *nastaveni akce po stisknuti tlacitka o programu
+       
+        */
         oProgramu.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -89,7 +110,10 @@ public class MenuLista extends MenuBar{
                 oProgramuAlert.showAndWait();
             }
         });
-        
+        /*
+        *nastaveni akce po stisknuti tlacitka napoveda
+       
+        */
         napovedaItem.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override

@@ -1,5 +1,6 @@
 package logika;
 
+import GUI.PersonView;
 import java.util.ArrayList;
 import java.util.List;
 import utils.Observer;
@@ -22,6 +23,7 @@ public class HerniPlan implements Subject{
     private Prostor aktualniProstor;
     private final List<Observer> listObserveru = new ArrayList<Observer>();
     /**
+     * @param batoh
      *  Konstruktor který vytváří jednotlivé prostory a propojuje je pomocí východů.
      *  Jako výchozí aktuální prostor nastaví halu.
      */
@@ -38,14 +40,14 @@ public class HerniPlan implements Subject{
      */
     private void zalozProstoryHry() {
         // vytvářejí se jednotlivé prostory
-        Prostor medellin = new Prostor("Medellín","Medellín - Rodné město Pabla Escobara", 10, 10);
-        Prostor vyrobna = new Prostor("výrobna","Výrobna kokainu, tvé skryté doupě", 20, 10);
-        Prostor hranice = new Prostor("hranice","Hraniční přechod s Panamou", 30, 10);
-        Prostor panama = new Prostor("Panama","Panama je zajímává tím, že přes ní vede průplav, kde se pohybuje spoustu nepřátel kartelu", 40, 10);
-        Prostor honduras = new Prostor("Honduras","Honduras je chudá země, která ti slouží na doplnění zásob", 50, 10);
-        Prostor mexiko = new Prostor("Mexiko","Mexiko - Jakmile jsi přijel do Mexika, jsi skoro u cíle, ale to ví i tvý nepřátelé...", 60, 10);
-        Prostor hranicni_prechod = new Prostor("USA","Hranice s USA je velmi nebezpečná a nelze celníky uplatit",70, 10);
-        Prostor sklad = new Prostor("Sklad", "Sklad, kde se dostává kokain mezi obyčejné lidi",80, 10);
+        Prostor medellin = new Prostor("Medellín","Medellín - Rodné město Pabla Escobara", 458, 292);
+        Prostor vyrobna = new Prostor("výrobna","Výrobna kokainu, tvé skryté doupě", 517, 255);
+        Prostor hranice = new Prostor("hranice","Hraniční přechod s Panamou", 446, 277);
+        Prostor panama = new Prostor("Panama","Panama je zajímává tím, že přes ní vede průplav, kde se pohybuje spoustu nepřátel kartelu", 413, 272);
+        Prostor honduras = new Prostor("Honduras","Honduras je chudá země, která ti slouží na doplnění zásob", 365, 237);
+        Prostor mexiko = new Prostor("Mexiko","Mexiko - Jakmile jsi přijel do Mexika, jsi skoro u cíle, ale to ví i tvý nepřátelé...", 190, 165);
+        Prostor hranicni_prechod = new Prostor("USA","Hranice s USA je velmi nebezpečná a nelze celníky uplatit", 193, 73);
+        Prostor sklad = new Prostor("Sklad", "Sklad, kde se dostává kokain mezi obyčejné lidi", 214, 54);
 
         // přiřazují se průchody mezi prostory (sousedící prostory)
 
@@ -70,7 +72,7 @@ public class HerniPlan implements Subject{
         Vec pistole = new Vec("pistole", "Pistole na obranu tveho zbozi", true, "pistole.jpg");
         Vec naboje = new Vec("náboje", "Náboje do tvé pistole", true, "naboje.jpg");
         Vec socha  = new Vec("socha", "Socha tvé postavy Pabla Escobara", false, "socha.jpg");
-        Vec stroj  = new Vec("stroj", "Stroj na výrobu kokainu", false, "stroj.jpg");
+        Vec stroj  = new Vec("stroj", "Stroj na výrobu kokainu", false, "stroj.JPG");
         Vec pruplav = new Vec("průplav", "průplav mezi oceany", false, "pruplav.jpg");
         Vec auto = new Vec("auto", "Auto celníků", false, "test.jpg");
         medellin.vlozVec(brambory);
@@ -103,7 +105,9 @@ public class HerniPlan implements Subject{
      */
 
     public Prostor getAktualniProstor() {
+       
         return aktualniProstor;
+        
     }
     public void setAktualniProstor(Prostor prostor) {
        aktualniProstor = prostor;
@@ -136,6 +140,10 @@ public class HerniPlan implements Subject{
         for (Observer listObserveruItem : listObserveru) {
             listObserveruItem.update();
         }
+    }
+
+    public void registerObservers(PersonView aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

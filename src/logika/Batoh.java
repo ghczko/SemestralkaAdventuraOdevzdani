@@ -50,6 +50,7 @@ public class Batoh implements Subject
 
    /**
     * zjistí jestli je batoh plný
+    * @return je batoh plný?
     */
     public boolean jePlny()  
     {
@@ -57,6 +58,8 @@ public class Batoh implements Subject
     }
     /**
      * vloží věc z parametru do batohu
+     * @return vlozila se správně?
+     * @param vec kterou chceme vlozit
      */
     public boolean vlozVec(Vec vec) {  
         if (!jePlny() && vec.isPrenositelna()) {
@@ -68,6 +71,10 @@ public class Batoh implements Subject
     
     /**
      * odebere věc z batohu, která je v parametru funkce
+     * @param nazev 
+     * název veci co chceme odebrat
+     * @return Vec 
+     * co se odebrala
      */
     
     public Vec odeberVec(String nazev) {  //odebere věc z batohu, která je v parametru funkce
